@@ -3,6 +3,9 @@ using System.Xml.Serialization;
 
 namespace MenuParser.Models
 {
+	/// <summary>
+	/// Represents a single navigational route.
+	/// </summary>
 	public class Item
 	{
 		[XmlElement("displayName")]

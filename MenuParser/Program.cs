@@ -9,6 +9,10 @@ using MenuParser.Models;
 
 namespace MenuParser
 {
+	/// <summary>
+	/// Reads a file name and selected path from the command line and
+	/// prints out a menu highlighting the paths matching the selected path.
+	/// </summary>
 	public class Program
 	{
 		public static void Main(string[] args)
@@ -23,9 +27,19 @@ namespace MenuParser
 			{
 				PrintUsage();
 			}
+			catch (InvalidMenuFileException)
+			{
+				Console.WriteLine("File is not in the proper format.");
+				PrintUsage();
+			}
 			catch (FileNotFoundException e)
 			{
 				Console.WriteLine($"{e.FileName} is not a valid file path.");
+				PrintUsage();
+			}
+			catch (InvalidOperationException)
+			{
+				Console.WriteLine("File is not in the proper format.");
 				PrintUsage();
 			}
 			catch (Exception)
@@ -45,6 +59,7 @@ namespace MenuParser
 		private static void PrintItem(Item item, string pathToMatch, int indentCount = 0)
 		{
 			const string active = " ACTIVE";
+			AssertValidItem(item);
 			var spaces = new string('\t', indentCount);
 			var activeStatus = IsActive(item, pathToMatch) ? active : string.Empty;
 			Console.WriteLine($"{spaces}{item.DisplayName}, {item.Path.Value}{activeStatus}");
@@ -88,6 +103,14 @@ namespace MenuParser
 			usage.AppendLine("Second, an active path to match");
 			usage.AppendLine($"Example:  {nameof(MenuParser)}.exe \"c:\\schedaeromenu.xml\" \"/default.aspx\"");
 			Console.WriteLine(usage.ToString());
+		}
+
+		private static void AssertValidItem(Item item)
+		{
+			if (string.IsNullOrEmpty(item.DisplayName) || string.IsNullOrEmpty(item.Path?.Value))
+			{
+				throw new InvalidMenuFileException();
+			}
 		}
 
 		private static void AssertValidCommandLineArguments(string[] args)

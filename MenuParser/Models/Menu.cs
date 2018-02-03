@@ -3,6 +3,9 @@ using System.Xml.Serialization;
 
 namespace MenuParser.Models
 {
+	/// <summary>
+	/// Represents a hierarchical navigational menu.
+	/// </summary>
 	[XmlRoot("menu")]
 	public class Menu
 	{
