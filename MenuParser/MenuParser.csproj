@@ -43,7 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Exceptions\InvalidCommandLineArgumentException.cs" />
-    <Compile Include="Exceptions\InvalidMenuFileException.cs" />
+    <Compile Include="Exceptions\InvalidMenuException.cs" />
+    <Compile Include="FileParser.cs" />
+    <Compile Include="MenuPrinter.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\Path.cs" />
