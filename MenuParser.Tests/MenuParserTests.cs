@@ -14,7 +14,7 @@ namespace MenuParser.Tests
 			const string fileName = "SchedAero Menu.txt";
 
 			var file = new FileInfo($"{SampleFileDirectory}/{fileName}");
-			Program.Main(new []{ file.FullName, "" });
+			Program.Main(new []{ file.FullName, "/Requests/OpenQuotes.aspx" });
 		}
 
 		[TestMethod]
@@ -23,7 +23,7 @@ namespace MenuParser.Tests
 			const string fileName = "Wyvern Menu.txt";
 
 			var file = new FileInfo($"{SampleFileDirectory}/{fileName}");
-			Program.Main(new[] { file.FullName, "" });
+			Program.Main(new[] { file.FullName, "/TWR/AircraftSearch.aspx" });
 		}
 	}
 }
