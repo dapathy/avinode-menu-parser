@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\InvalidCommandLineArgumentException.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\Path.cs" />
@@ -51,5 +52,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

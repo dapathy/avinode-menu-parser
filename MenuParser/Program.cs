@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+using MenuParser.Exceptions;
 using MenuParser.Models;
 
 namespace MenuParser
@@ -17,9 +19,14 @@ namespace MenuParser
 				var menu = ParseFile(args[0]);
 				PrintMenu(menu, args[1].Trim());
 			}
+			catch (InvalidCommandLineArgumentException)
+			{
+				PrintUsage();
+			}
 			catch (FileNotFoundException e)
 			{
 				Console.WriteLine($"{e.FileName} is not a valid file path.");
+				PrintUsage();
 			}
 			catch (Exception)
 			{
@@ -67,24 +74,34 @@ namespace MenuParser
 				throw new FileNotFoundException($"{fileName} was not found.", fileName);
 			}
 
-			var fs = new FileStream(fileName, FileMode.Open);
-			var reader = XmlReader.Create(fs);
+			var fileStream = new FileStream(fileName, FileMode.Open);
+			var reader = XmlReader.Create(fileStream);
 			var xmlSerializer = new XmlSerializer(typeof(Menu));
 			return xmlSerializer.Deserialize(reader) as Menu;
 		}
 
+		private static void PrintUsage()
+		{
+			var usage = new StringBuilder();
+			usage.AppendLine($"{nameof(MenuParser)} requires two arguments:");
+			usage.AppendLine("First, a path to the menu XML file");
+			usage.AppendLine("Second, an active path to match");
+			usage.AppendLine($"Example:  {nameof(MenuParser)}.exe \"c:\\schedaeromenu.xml\" \"/default.aspx\"");
+			Console.WriteLine(usage.ToString());
+		}
+
 		private static void AssertValidCommandLineArguments(string[] args)
 		{
-			if (args == null) throw new ArgumentNullException(nameof(args));
+			if (args == null) throw new InvalidCommandLineArgumentException();
 
 			if (args.Length != 2)
 			{
-				throw new InvalidOperationException($"{nameof(MenuParser)} requires two arguments.");
+				throw new InvalidCommandLineArgumentException();
 			}
 
 			if (args.Any(string.IsNullOrWhiteSpace))
 			{
-				throw new InvalidOperationException("Arguments are not valid.");
+				throw new InvalidCommandLineArgumentException();
 			}
 		}
 	}
