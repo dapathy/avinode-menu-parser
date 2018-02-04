@@ -22,6 +22,7 @@ namespace MenuParser
 		{
 			const string active = " ACTIVE";
 			AssertValidItem(item);
+
 			var spaces = new string('\t', indentCount);
 			var activeStatus = IsActive(item, pathToMatch) ? active : string.Empty;
 			Console.WriteLine($"{spaces}{item.DisplayName}, {item.Path.Value}{activeStatus}");
